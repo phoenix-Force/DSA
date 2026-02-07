@@ -10,46 +10,45 @@ struct node
 
 struct node *head = NULL;
 
-void insert(int x, int flag)
-{
-    struct node *current = head; // start point
+void insert(int x, int flag) {
+    struct node *current = head;
 
-    // creating temp value to assign
     struct node *temp = malloc(sizeof(struct node));
     temp->data = x;
     temp->next = NULL;
     temp->prev = NULL;
 
-    if (head == NULL)
-    {
+    if (head == NULL) {
         head = temp;
         return;
     }
 
-    if (flag == 0)
-    {
-        while (current->next != NULL)
-        {
+    if (flag == 0) {   // insert at end
+        while (current->next != NULL) {
             current = current->next;
         }
         current->next = temp;
-        temp->prev = current;
-    }
-    else
-    {
-        struct node *prev = NULL;
-
+        temp->prev = current;   // 🔥 FIX HERE
+    } 
+    else {
         while (current != NULL && current->data != flag)
-        {
-            prev = current;
             current = current->next;
+
+        if (current == NULL) {
+            free(temp);
+            return;
         }
 
         temp->next = current->next;
         temp->prev = current;
+
+        if (current->next != NULL)
+            current->next->prev = temp;
+
         current->next = temp;
     }
 }
+
 
 void traverse(int num, bool backward) {
     struct node *current = head;
