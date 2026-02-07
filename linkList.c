@@ -36,6 +36,22 @@ void traverse(struct node * begginging)
     }
 };
 
+void delete(int x) {
+    struct node * current = head;
+    struct node * prev = NULL;
+    while(current->data!=x) {
+        prev = current;
+        current = current->next;
+    }
+    if(current==NULL) {
+        return;
+    }
+    if(prev == NULL) {
+        head=current->next;
+    }
+    prev->next = current->next;
+    free(current);
+}
 
 
 
@@ -43,6 +59,9 @@ int main() {
     insert(10);
     insert(20);
     insert(30);
+    traverse(head);
+    delete(20);
+    printf("\n-------------------------------\n");
     traverse(head);
     return 0;
 }
